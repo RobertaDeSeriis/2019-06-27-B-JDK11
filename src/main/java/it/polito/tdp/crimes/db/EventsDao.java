@@ -117,7 +117,7 @@ public class EventsDao {
 	}
 	
 	public List<Adiacenza> getArchi(int m, String cat){
-		String sql = "	SELECT distinct e.offense_type_id, e1.offense_type_id, COUNT(e.neighborhood_id) AS peso "
+		String sql = "	SELECT distinct e.offense_type_id, e1.offense_type_id, COUNT(distinct(e.neighborhood_id)) AS peso "
 				+ "		FROM EVENTS e, EVENTS e1 "
 				+ "		WHERE MONTH(e.reported_date)=MONTH(e1.reported_date) AND MONTH(e1.reported_date)=? "
 				+ "		AND e.offense_category_id=? AND e1.offense_category_id=e.offense_category_id "

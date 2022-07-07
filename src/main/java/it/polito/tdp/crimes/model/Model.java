@@ -38,11 +38,11 @@ public class Model {
 	
 	public List<Adiacenza> getArchiSup(){
 		List<Adiacenza> adiacenti= new LinkedList<>(); 
-		
+		double med=this.getMedio();
 		
 		for (DefaultWeightedEdge a: grafo.edgeSet() ) {
 			 double p=grafo.getEdgeWeight(a);
-			 if(p>this.getMedio()) {
+			 if(p>med) {
 				 adiacenti.add(new Adiacenza(grafo.getEdgeSource(a), grafo.getEdgeTarget(a),(int)p ));
 			 }
 		}
