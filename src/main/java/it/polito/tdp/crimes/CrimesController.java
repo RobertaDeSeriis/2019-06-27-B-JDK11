@@ -5,8 +5,10 @@
 package it.polito.tdp.crimes;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.crimes.model.Adiacenza;
 import it.polito.tdp.crimes.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,10 +27,10 @@ public class CrimesController {
     private URL location;
 
     @FXML // fx:id="boxCategoria"
-    private ComboBox<?> boxCategoria; // Value injected by FXMLLoader
+    private ComboBox<String> boxCategoria; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxMese"
-    private ComboBox<?> boxMese; // Value injected by FXMLLoader
+    private ComboBox<Integer> boxMese; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnAnalisi"
     private Button btnAnalisi; // Value injected by FXMLLoader
@@ -45,7 +47,16 @@ public class CrimesController {
     @FXML
     void doCreaGrafo(ActionEvent event) {
     	txtResult.clear();
-    	txtResult.appendText("Crea grafo...\n");
+    	
+    	if(this.boxMese.getValue()!=null && this.boxCategoria.getValue()!=null) {
+    		txtResult.appendText(model.creaGrafo(this.boxMese.getValue(), this.boxCategoria.getValue()));
+    		this.btnPercorso.setDisable(true);
+    		txtResult.appendText("\n\nArchi con peso superiore al peso medio:");
+    		for  (Adiacenza a: model.getArchiSup()) {
+    			txtResult.appendText("\n"+a);
+    		}
+    	}
+    	
     }
     
     @FXML
@@ -67,5 +78,11 @@ public class CrimesController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	this.boxCategoria.getItems().addAll(model.getReati());
+    	this.btnPercorso.setDisable(true);
+    	
+    	for (int i=1; i<=12; i++) {
+    		this.boxMese.getItems().add(i);
+    	}
     }
 }
